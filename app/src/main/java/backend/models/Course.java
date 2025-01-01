@@ -8,6 +8,7 @@ public class Course {
     private List<String> content;
     private List<Long> videoIds;
     private List<courseAdmin> admins;
+    private List<Quiz> quizzes;
 
     public Course(Long id, String name) {
         this.id = id;
@@ -36,5 +37,13 @@ public class Course {
 
     public void removeAdmin(courseAdmin admin) {
         this.admins.remove(admin);
+    }
+
+    public void addQuiz(Quiz quiz) {
+        this.quizzes.add(quiz);
+    }
+
+    public void removeQuiz(Quiz quiz) {
+        this.quizzes.remove(quiz);
     }
 }
