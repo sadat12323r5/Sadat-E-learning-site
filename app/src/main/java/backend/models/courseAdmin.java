@@ -26,4 +26,13 @@ public class courseAdmin {
 
     public void removeTeacherFromCourse(courseAdmin teacher, Course course) {
     }
+
+    public void enrolStudentToCourse(Student student, Course course) {
+    }
+
+    public void removeStudentToFromCourse(Student student, Course course) {
+    }
+
+    public void generateTranscript(Student student) {
+    }
 }
