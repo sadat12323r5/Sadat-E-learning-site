@@ -1,21 +1,49 @@
 package backend.models;
-import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Student {
-    public int id;
-    public String name;
-    public String email;
-    public List<Course> courses;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Student(int id, String name, String email) {
-        this.id = id;
+    private String name;
+    private int grade;
+
+    // Constructors
+    public Student() {}
+
+    public Student(String name, int grade) {
         this.name = name;
-        this.email = email;
+        this.grade = grade;
     }
 
-    public void takeQuiz(Course course) {
+    // Getters and Setters
+    public Long getId() {
+        return id;
     }
 
-    public void viewContent(Course course) {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 }
