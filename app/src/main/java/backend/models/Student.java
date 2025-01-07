@@ -10,16 +10,17 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+    private String email;
     private int grade;
 
     // Constructors
     public Student() {}
 
-    public Student(String name, int grade) {
+    public Student(String name, String email, int grade) {
         this.name = name;
         this.grade = grade;
+        this.email = email;
     }
 
     // Getters and Setters
@@ -37,6 +38,14 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getGrade() {

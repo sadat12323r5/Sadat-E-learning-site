@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import backend.models.Student;
 import backend.repositories.StudentRepository;
+import backend.services.StudentService;
 
 import java.util.List;
 
@@ -11,40 +12,30 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
 
-    @Autowired
-    private StudentRepository studentRepository;
+    private final StudentService studentService;
 
-    // Get all students
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
+
     @GetMapping
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        return studentService.getAllStudents();
     }
 
-    // Get a student by ID
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        return studentService.getStudentById(id);
     }
 
-    // Create a new student
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
-        return studentRepository.save(student);
+        return studentService.saveStudent(student);
     }
 
-    // Update a student
-    @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
-        student.setName(updatedStudent.getName());
-        student.setGrade(updatedStudent.getGrade());
-        return studentRepository.save(student);
-    }
-
-    // Delete a student
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Long id) {
-        studentRepository.deleteById(id);
+        studentService.deleteStudent(id);
     }
 
 }
