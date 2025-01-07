@@ -2,6 +2,8 @@ package backend.controllers;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+
 import backend.models.Student;
 import backend.repositories.StudentRepository;
 import backend.services.StudentService;
@@ -11,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
-
+    @Autowired
     private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
@@ -36,6 +38,12 @@ public class StudentController {
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
+        Student student = studentService.updateStudent(id, updatedStudent);
+        return ResponseEntity.ok(student);
     }
 
 }
