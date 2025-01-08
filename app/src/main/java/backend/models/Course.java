@@ -8,6 +8,7 @@ public class Course {
     private List<String> content;
     private List<Long> videoIds;
     private List<courseAdmin> admins;
+    private List<Student> students;
     private List<Quiz> quizzes;
 
     public Course(Long id, String name) {

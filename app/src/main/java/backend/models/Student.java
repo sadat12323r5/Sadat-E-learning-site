@@ -1,5 +1,7 @@
 package backend.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ public class Student {
     private String name;
     private String email;
     private int grade;
+    public List<Course> courses;
 
     // Constructors
     public Student() {}
@@ -55,4 +58,11 @@ public class Student {
     public void setGrade(int grade) {
         this.grade = grade;
     }
+
+    public void takeQuiz(Course course) {
+    }
+
+    public void viewContent(Course course) {
+    }
+
 }
