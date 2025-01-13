@@ -14,9 +14,21 @@ public class Course {
     @ElementCollection
     private List<String> videoLinks;
 
-    public Course(Long id, String name) {
-        this.id = id;
+    public List<String> getVideoLinks() {
+        return videoLinks;
+    }
+
+    public void setVideoLinks(List<String> videoLinks) {
+        this.videoLinks = videoLinks;
+    }
+
+    public Course() {
+    }
+    
+    public Course(String name, String writtenContent, List<String> videoLinks) {
         this.name = name;
+        this.content = writtenContent;
+        this.videoLinks = videoLinks;
     }
 
     @ManyToMany(mappedBy = "courses")

@@ -2,6 +2,7 @@ package backend.services;
 
 import backend.models.Course;
 import backend.models.Student;
+import backend.repositories.CourseRepository;
 import backend.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,10 +12,12 @@ import backend.exceptions.ResourceNotFoundException;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
-    }
+        this.courseRepository = courseRepository;
+    }   
 
     public Student login(String username, String password) {
         return studentRepository.findByUsernameAndPassword(username, password).orElse(null);
@@ -52,4 +55,12 @@ public class StudentService {
         return student.getCourses();
     }
 
+    public void enrollInCourse(Long studentId, Long courseId) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + studentId));
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + courseId));
+        student.getCourses().add(course);
+        studentRepository.save(student);
+    }
 }
