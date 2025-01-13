@@ -30,6 +30,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
+
+    // Add Bean Validation dependencies
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
