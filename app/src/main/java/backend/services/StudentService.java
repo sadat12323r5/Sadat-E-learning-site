@@ -1,5 +1,6 @@
 package backend.services;
 
+import backend.models.Course;
 import backend.models.Student;
 import backend.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,10 @@ public class StudentService {
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
+    }
+
+    public Student login(String username, String password) {
+        return studentRepository.findByUsernameAndPassword(username, password).orElse(null);
     }
 
     public List<Student> getAllStudents() {
@@ -39,4 +44,12 @@ public class StudentService {
             return studentRepository.save(student);
         }).orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + id));
     }
+
+    public List<Course> getEnrolledCourses(Long studentId) {
+        Student student = studentRepository.findById(studentId).orElseThrow(
+            () -> new ResourceNotFoundException("Student not found with id " + studentId)
+        );
+        return student.getCourses();
+    }
+
 }
