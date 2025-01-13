@@ -1,50 +1,58 @@
 package backend.models;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Unique ID for the course
     private String name; // Name of the course
+    private String content;
 
-    private List<String> content;
-    private List<Long> videoIds;
-    private List<courseAdmin> admins;
-    private List<Student> students;
-    private List<Quiz> quizzes;
+    @ElementCollection
+    private List<String> videoLinks;
 
     public Course(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Course(Long id, String name, List<String> content, List<Long> videoIds, List<courseAdmin> admins) {
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
-        this.videoIds = videoIds;
-        this.admins = admins;
     }
 
-    public void addVideoId(Long videoId) {
-        this.videoIds.add(videoId);
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void removeVideoId(Long videoId) {
-        this.videoIds.remove(videoId);
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
-    public void addAdmin(courseAdmin admin) {
-        this.admins.add(admin);
-    }
-
-    public void removeAdmin(courseAdmin admin) {
-        this.admins.remove(admin);
-    }
-
-    public void addQuiz(Quiz quiz) {
-        this.quizzes.add(quiz);
-    }
-
-    public void removeQuiz(Quiz quiz) {
-        this.quizzes.remove(quiz);
-    }
+    
 }

@@ -6,6 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Student {
@@ -15,7 +18,17 @@ public class Student {
     private String name;
     private String email;
     private int grade;
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_courses",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
     public List<Course> courses;
+
+    private String username;
+    private String password;
 
     // Constructors
     public Student() {}
@@ -60,9 +73,34 @@ public class Student {
     }
 
     public void takeQuiz(Course course) {
+
     }
 
     public void viewContent(Course course) {
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

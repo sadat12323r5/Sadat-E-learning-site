@@ -1,5 +1,8 @@
-package backend.models;
+package backend.models.archive;
 import java.util.List;
+
+import backend.models.Course;
+import backend.models.Student;
 
 public class teachingAdmin extends courseAdmin {
 

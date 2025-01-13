@@ -1,4 +1,4 @@
-package backend.models;
+package backend.models.archive;
 import java.util.List;
 
 public class Quiz {
