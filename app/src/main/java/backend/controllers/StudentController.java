@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 
 import backend.models.Course;
 import backend.models.Student;
-import backend.repositories.StudentRepository;
 import backend.services.StudentService;
 
 import java.util.List;
