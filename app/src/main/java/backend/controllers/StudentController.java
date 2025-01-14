@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import backend.models.Course;
+import backend.models.LoginRequest;
 import backend.models.Student;
 import backend.services.StudentService;
+import backend.utils.JwtUtil;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private final StudentService studentService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -47,24 +52,21 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Student> login(@RequestBody Student loginDetails) {
-        Student student = studentService.login(loginDetails.getUsername(), loginDetails.getPassword());
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-    }
-
     @GetMapping("/{id}/courses")
     public List<Course> getCourses(@PathVariable Long id) {
         return studentService.getEnrolledCourses(id);
     }
 
     @PutMapping("/{studentId}/enroll/{courseId}")
-        public ResponseEntity<String> enrollInCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
+    public ResponseEntity<String> enrollInCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
         studentService.enrollInCourse(studentId, courseId);
         return ResponseEntity.ok("Student enrolled in course successfully!");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        Student student = studentService.authenticate(request.getUsername(), request.getPassword());
+        String token = jwtUtil.generateToken(student.getUsername());
+        return ResponseEntity.ok(token);
     }
 }
