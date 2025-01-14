@@ -7,4 +7,5 @@ import backend.models.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByUsernameAndPassword(String username, String password);
+    Optional<Student> findByUsername(String username);
 }

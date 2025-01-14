@@ -63,4 +63,10 @@ public class StudentService {
         student.getCourses().add(course);
         studentRepository.save(student);
     }
+
+    public Student authenticate(String username, String password) {
+        return studentRepository.findByUsername(username)
+                .filter(student -> student.getPassword().equals(password))
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+    }
 }
