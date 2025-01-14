@@ -1,14 +1,24 @@
 package backend.models;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Unique ID for the course
+
+    @NotNull
+    @Size(min = 3, max = 50)
     private String name; // Name of the course
+
+    @NotNull
+    @Size(min = 10)
     private String content;
 
     @ElementCollection
@@ -30,9 +40,6 @@ public class Course {
         this.content = writtenContent;
         this.videoLinks = videoLinks;
     }
-
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
 
     public Long getId() {
         return id;
@@ -57,14 +64,5 @@ public class Course {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
     
 }
