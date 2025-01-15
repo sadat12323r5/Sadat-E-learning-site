@@ -3,6 +3,7 @@ import api from './api';
 
 const Students = () => {
   const [students, setStudents] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch data from the backend
@@ -12,8 +13,13 @@ const Students = () => {
       })
       .catch((error) => {
         console.error('Error fetching students:', error);
+        setError('Failed to fetch students');
       });
   }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>

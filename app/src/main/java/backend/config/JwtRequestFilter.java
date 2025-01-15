@@ -33,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(token); // Implement this method in JwtUtil
         }
 
-        // Add your custom logic here (e.g., user authentication)
+        // Add custom logic here (e.g., user authentication)
 
         filterChain.doFilter(request, response); // Continue with the next filter in the chain
     }
