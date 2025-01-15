@@ -1,11 +1,14 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Students from './Students';
 
 function App() {
   return (
-    <div>
-      <h1>Welcome to React!</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Students />} />
+    </Routes>
   );
 }
 
 export default App;
+
