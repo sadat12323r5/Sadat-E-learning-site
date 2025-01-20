@@ -7,13 +7,17 @@ const Students = () => {
 
   useEffect(() => {
     // Fetch data from the backend
-    api.get('/students')
+    api.get('/students', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
+      },
+    })
       .then((response) => {
         setStudents(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching students:', error);
-        setError('Failed to fetch students');
+        console.error("Error fetching students:", error);
+        setError("Failed to fetch students");
       });
   }, []);
 
