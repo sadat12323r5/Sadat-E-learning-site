@@ -7,18 +7,25 @@ const Students = () => {
 
   useEffect(() => {
     // Fetch data from the backend
-    api.get('/students', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`, // Retrieve token from localStorage
-      },
-    })
-      .then((response) => {
+    const fetchStudents = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Retrieve token from localStorage
+        if (!token) {
+          throw new Error("Token is not available. Please log in.");
+        }
+        const response = await api.get('/students', {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach token in Authorization header
+          },
+        });
         setStudents(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching students:", error);
         setError("Failed to fetch students");
-      });
+      }
+    };
+
+    fetchStudents();
   }, []);
 
   if (error) {

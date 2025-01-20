@@ -42,7 +42,7 @@ dependencies {
     //servlet
     implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.6'
 
     implementation 'org.slf4j:slf4j-api:2.0.9' // Latest version as of now
     implementation 'ch.qos.logback:logback-classic:1.4.11' // Optional: For logback as the logger implementation

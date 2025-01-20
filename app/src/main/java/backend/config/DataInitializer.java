@@ -44,5 +44,5 @@ public class DataInitializer {
 
         studentRepository.save(student);
     }
-    
+
 }

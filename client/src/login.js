@@ -24,7 +24,6 @@ const Login = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "Invalid username or password");
       }
-
       const token = await response.text();
       localStorage.setItem("token", token); // Store token
       alert("Login successful!");
