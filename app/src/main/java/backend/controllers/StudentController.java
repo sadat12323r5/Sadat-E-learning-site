@@ -1,15 +1,22 @@
 package backend.controllers;
 
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import backend.exceptions.InvalidCredentialsException;
 import backend.models.Course;
 import backend.models.LoginRequest;
 import backend.models.Student;
 import backend.services.StudentService;
 import backend.utils.JwtUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -22,51 +29,86 @@ public class StudentController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
+
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
+    /**
+     * Retrieves all students.
+     */
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/{id}")
+    /**
+     * Handles login for students.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request) {
+        try {
+            logger.info("Login attempt for user: {}", request.getUsername());
+            Student student = studentService.authenticate(request.getUsername(), request.getPassword());
+            String token = jwtUtil.generateToken(student.getUsername());
+            logger.info("Login successful for user: {}", request.getUsername());
+            return ResponseEntity.ok(token);
+        } catch (InvalidCredentialsException e) {
+            logger.warn("Invalid login attempt for user: {}", request.getUsername());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+    }
+
+    /**
+     * Retrieves a student by their ID.
+     */
+    @GetMapping("/{id:[0-9]+}")
     public Student getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);
     }
 
+    /**
+     * Creates a new student.
+     */
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.saveStudent(student);
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        Student createdStudent = studentService.saveStudent(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) {
+    /**
+     * Deletes a student by their ID.
+     */
+    @DeleteMapping("/{id:[0-9]+}")
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student deleted successfully");
     }
 
-    @PutMapping("/{id}")
+    /**
+     * Updates a student's information.
+     */
+    @PutMapping("/{id:[0-9]+}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
         Student student = studentService.updateStudent(id, updatedStudent);
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("/{id}/courses")
+    /**
+     * Retrieves all courses a student is enrolled in.
+     */
+    @GetMapping("/{id:[0-9]+}/courses")
     public List<Course> getCourses(@PathVariable Long id) {
         return studentService.getEnrolledCourses(id);
     }
 
+    /**
+     * Enrolls a student in a course.
+     */
     @PutMapping("/{studentId}/enroll/{courseId}")
     public ResponseEntity<String> enrollInCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
         studentService.enrollInCourse(studentId, courseId);
         return ResponseEntity.ok("Student enrolled in course successfully!");
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        Student student = studentService.authenticate(request.getUsername(), request.getPassword());
-        String token = jwtUtil.generateToken(student.getUsername());
-        return ResponseEntity.ok(token);
     }
 }

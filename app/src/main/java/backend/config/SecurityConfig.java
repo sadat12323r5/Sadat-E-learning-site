@@ -11,16 +11,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
+        http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // Allow H2 Console access
-                .requestMatchers(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/register")).permitAll() // Allow login and register
-                .requestMatchers(new AntPathRequestMatcher("/students")).permitAll() // Allow public access to /students
-                .anyRequest().authenticated() // Secure all other endpoints
+                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/students/login"), new AntPathRequestMatcher("/students/register")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/students/**")).authenticated()
             )
-            .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())); // Fix for H2 Console
-
+            .headers(headers -> headers
+                .frameOptions(frameOptions -> frameOptions.sameOrigin())
+            );
         return http.build();
     }
 }
