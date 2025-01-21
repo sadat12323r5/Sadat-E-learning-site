@@ -29,7 +29,7 @@ public class DataInitializer {
         Course course2 = new Course();
         course2.setName("Physics 101");
         course2.setContent("Introduction to Mechanics");
-        course2.setVideoLinks(List.of("https://youtu.be/Hj9ewdPxkpU?si=dA_N3_JtqF8gZQao", "https://www.youtube.com/watch?v=oh-_VU8KvLI"));
+        course2.setVideoLinks(List.of("https://www.youtube.com/watch?v=Hj9ewdPxkpU", "https://www.youtube.com/watch?v=oh-_VU8KvLI"));
 
         courseRepository.saveAll(List.of(course1, course2));
 
