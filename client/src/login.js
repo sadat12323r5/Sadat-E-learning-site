@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8080/students/login", {
@@ -21,13 +21,13 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Invalid username or password");
+        throw new Error("Invalid username or password");
       }
+
       const token = await response.text();
-      localStorage.setItem("token", token); // Store token
+      localStorage.setItem("token", token);
       alert("Login successful!");
-      navigate("/students"); // Redirect to the students page
+      navigate("/courses");
     } catch (err) {
       console.error("Login error:", err);
       setError(err.message);
@@ -35,34 +35,77 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", textAlign: "center" }}>
-      <h1>Login</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={{ padding: "10px", width: "100%" }}
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ padding: "10px", width: "100%" }}
-          />
-        </div>
-        <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
-          Login
-        </button>
-      </form>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+        backgroundColor: "#f5f5f5",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          padding: "20px",
+          borderRadius: "10px",
+          backgroundColor: "white",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+          textAlign: "center",
+        }}
+      >
+        <h1 style={{ color: "#4CAF50", fontSize: "24px", marginBottom: "20px" }}>
+          Sadat's E-learning Site
+        </h1>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: "10px" }}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              style={{
+                padding: "10px",
+                width: "100%",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+              }}
+            />
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{
+                padding: "10px",
+                width: "100%",
+                borderRadius: "5px",
+                border: "1px solid #ccc",
+              }}
+            />
+          </div>
+          <button
+            type="submit"
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#4CAF50",
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "16px",
+            }}
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
