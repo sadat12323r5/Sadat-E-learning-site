@@ -24,12 +24,12 @@ public class DataInitializer {
         Course course1 = new Course();
         course1.setName("Math 101");
         course1.setContent("Introduction to Algebra");
-        course1.setVideoLinks(List.of("https://example.com/video1", "https://example.com/video2"));
+        course1.setVideoLinks(List.of("https://www.youtube.com/watch?v=grnP3mduZkM", "https://youtu.be/i6sbjtJjJ-A?si=_JDWf5Agrq5wU1ol"));
 
         Course course2 = new Course();
         course2.setName("Physics 101");
         course2.setContent("Introduction to Mechanics");
-        course2.setVideoLinks(List.of("https://example.com/video3", "https://example.com/video4"));
+        course2.setVideoLinks(List.of("https://youtu.be/Hj9ewdPxkpU?si=dA_N3_JtqF8gZQao", "https://www.youtube.com/watch?v=oh-_VU8KvLI"));
 
         courseRepository.saveAll(List.of(course1, course2));
 
