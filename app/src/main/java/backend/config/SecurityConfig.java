@@ -18,6 +18,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll() // Allow access to H2 console
                 .requestMatchers(new AntPathRequestMatcher("/students/login")).permitAll() // Allow public login access
+                .requestMatchers(new AntPathRequestMatcher("/courses")).authenticated() // Allow public login access
                 .requestMatchers(new AntPathRequestMatcher("/students/**")).authenticated() // Protect all other endpoints
             )
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class) // Add the JWT filter

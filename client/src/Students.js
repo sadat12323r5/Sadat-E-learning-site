@@ -9,13 +9,13 @@ const Students = () => {
     // Fetch data from the backend
     const fetchStudents = async () => {
       try {
-        const token = localStorage.getItem("token"); // Retrieve token from localStorage
+        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token is not available. Please log in.");
         }
         const response = await api.get('/students', {
           headers: {
-            Authorization: `Bearer ${token}`, // Attach token in Authorization header
+            Authorization: `Bearer ${token}`,
           },
         });
         setStudents(response.data);
