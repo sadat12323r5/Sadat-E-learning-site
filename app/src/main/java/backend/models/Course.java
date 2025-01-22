@@ -21,6 +21,10 @@ public class Course {
     @Size(min = 10)
     private String content;
 
+    @NotNull
+    @Size(min = 5, max = 255)
+    private String thumbnail; // URL of the thumbnail for the course
+
     @ElementCollection
     private List<String> videoLinks;
 
@@ -35,10 +39,11 @@ public class Course {
     public Course() {
     }
     
-    public Course(String name, String writtenContent, List<String> videoLinks) {
+    public Course(String name, String writtenContent, List<String> videoLinks, String thumbnail) {
         this.name = name;
         this.content = writtenContent;
         this.videoLinks = videoLinks;
+        this.thumbnail = thumbnail;
     }
 
     public Long getId() {
@@ -63,6 +68,14 @@ public class Course {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
     
 }

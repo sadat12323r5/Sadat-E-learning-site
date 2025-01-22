@@ -18,7 +18,9 @@ import backend.utils.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -47,16 +49,26 @@ public class StudentController {
      * Handles login for students.
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginRequest request) {
         try {
             logger.info("Login attempt for user: {}", request.getUsername());
             Student student = studentService.authenticate(request.getUsername(), request.getPassword());
             String token = jwtUtil.generateToken(student.getUsername());
             logger.info("Login successful for user: {}", request.getUsername());
-            return ResponseEntity.ok(token);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            response.put("studentName", student.getName());
+
+            return ResponseEntity.ok(response);
+
         } catch (InvalidCredentialsException e) {
+
             logger.warn("Invalid login attempt for user: {}", request.getUsername());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Invalid username or password");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
     }
 

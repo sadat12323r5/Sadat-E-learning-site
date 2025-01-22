@@ -21,13 +21,15 @@ const Login = () => {
       });
 
       if (!response.ok) {
+        alert("Login unsuccessful!");
         throw new Error("Invalid username or password");
       }
 
-      const token = await response.text();
-      localStorage.setItem("token", token);
-      alert("Login successful!");
-      navigate("/courses");
+      const data = await response.json(); // Parse JSON to extract token and studentName
+      localStorage.setItem("token", data.token); // Store token
+      localStorage.setItem("studentName", data.studentName); // Store student's name
+      alert(`Welcome, ${data.studentName}!`);
+      navigate("/courses"); // Redirect to courses page
     } catch (err) {
       console.error("Login error:", err);
       setError(err.message);

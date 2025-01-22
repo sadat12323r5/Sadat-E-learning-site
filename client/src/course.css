@@ -1,0 +1,83 @@
+.courses-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  position: fixed; /* Fix it to the top of the screen */
+  top: 0; /* Start at the very top */
+  left: 0; /* Align to the left edge */
+  width: 100vw; /* 100% of the viewport width */
+  background-color: #4CAF50; /* Green background */
+  color: white; /* White text */
+  text-align: center; /* Center the text */
+  padding: 20px 0; /* Add some vertical padding */
+  font-size: 24px; /* Font size for heading */
+  font-weight: bold; /* Make it bold */
+  z-index: 1000; /* Ensure it’s above other elements */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  margin: 0; /* Remove any margin */
+}
+
+
+.greeting {
+  font-size: 20px;
+  color: #4CAF50; /* Match the green theme */
+  margin: 20px 0;
+  text-align: center;
+}
+
+.courses-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.course-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 300px;
+  text-align: left;
+}
+
+.course-thumbnail {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.course-content {
+  padding: 15px;
+}
+
+.course-content h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: #333;
+}
+
+.course-content p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 15px;
+}
+
+.course-link {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.course-link:hover {
+  background-color: #45a049;
+}

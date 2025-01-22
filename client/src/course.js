@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react"; 
 import api from "./api";
+import "./course.css";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
+  const studentName = localStorage.getItem("studentName"); // Retrieve student name from localStorage
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    api
-      .get("/courses", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    api.get("/courses", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         setCourses(response.data);
       })
@@ -31,49 +31,29 @@ const Courses = () => {
   }
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <h1 style={{ color: "yellow" }}>Sadat's E-learning site</h1>
-      <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-        {courses.map((course) => (
-          <Link
-            to={`/course/${course.id}`}
-            key={course.id}
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <div
-              style={{
-                background: "#333",
-                borderRadius: "10px",
-                padding: "20px",
-                width: "250px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                textAlign: "center",
-              }}
-            >
-              <h2 style={{ color: "yellow" }}>{course.name}</h2>
-              <p>{course.content}</p>
-              <div>
-                {course.videoLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: "lightblue", display: "block" }}
-                  >
-                    Video {index + 1}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+  <div className="courses-container">
+    <div className="header">Sadat's E-learning Site</div>
+    <div className="greeting"> Hi, {studentName}!</div>
+    <div className="courses-grid">
+      {courses.map((course) => (
+        <div key={course.id} className="course-card">
+          <img
+            src={course.thumbnail || "https://via.placeholder.com/300"}
+            alt={`${course.name} Thumbnail`}
+            className="course-thumbnail"
+          />
+          <div className="course-content">
+            <h2>{course.name}</h2>
+            <p>{course.content}</p>
+            <a href={`/course/${course.id}`} className="course-link">
+              View Details
+            </a>
+          </div>
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
 };
 
 export default Courses;
