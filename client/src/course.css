@@ -81,3 +81,20 @@
 .course-link:hover {
   background-color: #45a049;
 }
+
+.create-course-button {
+  margin: 20px auto;
+  display: block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.create-course-button:hover {
+  background-color: #45a049;
+}

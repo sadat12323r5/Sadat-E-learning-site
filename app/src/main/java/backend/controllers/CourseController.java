@@ -2,6 +2,8 @@ package backend.controllers;
 
 import backend.models.Course;
 import backend.services.CourseService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +33,7 @@ public class CourseController {
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
         Course createdCourse = courseService.saveCourse(course);
-        return ResponseEntity.ok(createdCourse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
     }
 
     @PutMapping("/{id}")

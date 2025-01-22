@@ -5,6 +5,7 @@ import Login from "./login";
 import Courses from "./course";
 import CourseDetails from "./CourseDetails";
 import ProtectedRoute from "./protectedRoute";
+import CreateCourse from "./CreateCourse";
 
 function App() {
   return (
@@ -31,9 +32,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+        
 
         {/* Redirect any unmatched route to /login */}
-        <Route path="*" element={<Navigate to="/login" />} />
+        <Route
+          path="/create-course"
+          element={
+            <ProtectedRoute>
+              <CreateCourse />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );
