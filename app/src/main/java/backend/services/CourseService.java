@@ -33,6 +33,7 @@ public class CourseService {
             course.setName(updatedCourse.getName());
             course.setContent(updatedCourse.getContent());
             course.setVideoLinks(updatedCourse.getVideoLinks());
+            course.setThumbnail(updatedCourse.getThumbnail());
             return courseRepository.save(course);
         }).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
     }
