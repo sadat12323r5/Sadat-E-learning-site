@@ -12,7 +12,6 @@ const CourseDetails = () => {
   const [editedContent, setEditedContent] = useState(""); // Editable content
   const navigate = useNavigate();
 
-  // Fetch course details on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
     api
@@ -23,7 +22,7 @@ const CourseDetails = () => {
       })
       .then((response) => {
         setCourse(response.data);
-        setEditedContent(response.data.content); // Initialize content editor with course content
+        setEditedContent(response.data.content); // Set initial content for editing
         setCurrentVideo(null);
       })
       .catch((error) => {
@@ -32,7 +31,6 @@ const CourseDetails = () => {
       });
   }, [id]);
 
-  // Handle content save using PATCH
   const handleSaveContent = () => {
     const token = localStorage.getItem("token");
 
@@ -46,9 +44,8 @@ const CourseDetails = () => {
           },
         }
       )
-      .then((response) => {
+      .then(() => {
         alert("Course content updated successfully!");
-        setCourse(response.data); // Update course state with new content
       })
       .catch((error) => {
         console.error("Error updating course content:", error);
@@ -56,14 +53,13 @@ const CourseDetails = () => {
       });
   };
 
-  // ReactQuill editor configuration
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline"],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
-      ["formula"], // Formula editor for math equations
+      // "formula" is removed from the toolbar options
     ],
   };
 
@@ -76,10 +72,8 @@ const CourseDetails = () => {
     "bullet",
     "link",
     "image",
-    "formula",
   ];
 
-  // Error handling and loading state
   if (error) {
     return (
       <div style={{ color: "red", textAlign: "center" }}>
@@ -156,7 +150,7 @@ const CourseDetails = () => {
                 : currentVideo
             }
             title="Course Video"
-            style={{ border: "none" }}
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
