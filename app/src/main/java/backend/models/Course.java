@@ -17,8 +17,8 @@ public class Course {
     @Size(min = 3, max = 50)
     private String name; // Name of the course
 
-    @NotNull
-    @Size(min = 10)
+    @Lob // Use a Large Object to store larger data
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @NotNull

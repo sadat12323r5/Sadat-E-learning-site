@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import api from "./api";
 import "./course.css";
@@ -56,7 +56,7 @@ const Courses = () => {
             />
             <div className="course-content">
               <h2>{course.name}</h2>
-              <p>{course.content}</p>
+              {/* Removed the <p>{course.content}</p> line */}
               <a href={`/course/${course.id}`} className="course-link">
                 View Details
               </a>
