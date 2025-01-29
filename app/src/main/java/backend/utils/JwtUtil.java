@@ -15,7 +15,6 @@ public class JwtUtil {
     private static final String SECRET_KEY = "uH9&vP8#x!zU2$N0@L3fH7*JqR5!T4@Kp8C1xZ9#W6mY7*VnP2";
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    // Generate a JWT token
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
@@ -27,7 +26,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Extract username from the token
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
