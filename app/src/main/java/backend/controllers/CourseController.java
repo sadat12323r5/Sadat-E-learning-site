@@ -52,7 +52,7 @@ public class CourseController {
     @PatchMapping("/{id}/content")
     public ResponseEntity<Course> updateCourseContent(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
         String newContent = requestBody.get("content");
-        if (newContent == null || newContent.trim().isEmpty()) {
+        if (newContent == null || newContent.isBlank()) {
             throw new IllegalArgumentException("Content cannot be null or empty");
         }
         Course updatedCourse = courseService.updateCourseContent(id, newContent);
