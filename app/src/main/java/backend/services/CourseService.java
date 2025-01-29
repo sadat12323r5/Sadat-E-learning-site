@@ -38,6 +38,14 @@ public class CourseService {
         }).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
     }
 
+    public Course updateCourseContent(Long id, String newContent) {
+        Course existingCourse = courseRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
+        
+        existingCourse.setContent(newContent);
+        return courseRepository.save(existingCourse);
+    }
+
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }

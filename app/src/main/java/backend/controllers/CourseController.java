@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/courses")
@@ -46,5 +47,15 @@ public class CourseController {
     public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
         return ResponseEntity.ok("Course deleted successfully!");
+    }
+
+    @PatchMapping("/{id}/content")
+    public ResponseEntity<Course> updateCourseContent(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
+        String newContent = requestBody.get("content");
+        if (newContent == null || newContent.trim().isEmpty()) {
+            throw new IllegalArgumentException("Content cannot be null or empty");
+        }
+        Course updatedCourse = courseService.updateCourseContent(id, newContent);
+        return ResponseEntity.ok(updatedCourse);
     }
 }
