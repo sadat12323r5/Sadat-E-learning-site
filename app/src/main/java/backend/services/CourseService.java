@@ -49,4 +49,11 @@ public class CourseService {
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+
+    public Course updateCourseVideos(Long id, List<String> videoLinks) {
+        Course course = courseRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
+        course.setVideoLinks(videoLinks);
+        return courseRepository.save(course);
+    }
 }
