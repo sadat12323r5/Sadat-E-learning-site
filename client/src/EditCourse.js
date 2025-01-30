@@ -56,27 +56,6 @@ const EditCourse = () => {
       });
   };
 
-  const handleDeleteCourse = () => {
-    const token = localStorage.getItem("token");
-
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      api
-        .delete(`/courses/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(() => {
-          alert("Course deleted successfully!");
-          navigate("/courses");
-        })
-        .catch((error) => {
-          console.error("Error deleting course:", error);
-          alert("Failed to delete course.");
-        });
-    }
-  };
-
   const handleAddVideo = () => {
     if (!newVideo.trim()) {
       alert("Video URL cannot be empty!");
@@ -139,9 +118,6 @@ const EditCourse = () => {
 
       <br />
       <button onClick={handleUpdateCourse}>Save Changes</button>
-      <button onClick={handleDeleteCourse} style={{ backgroundColor: "red", color: "white" }}>
-        Delete Course
-      </button>
       <button onClick={() => navigate(`/course/${id}`)}>Cancel</button>
     </div>
   );

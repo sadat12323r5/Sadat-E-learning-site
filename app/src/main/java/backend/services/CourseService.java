@@ -46,9 +46,6 @@ public class CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    public void deleteCourse(Long id) {
-        courseRepository.deleteById(id);
-    }
 
     // Update course name, thumbnail, and video links
     public Course updateCourseDetails(Long id, String name, String thumbnail, List<String> videoLinks) {
