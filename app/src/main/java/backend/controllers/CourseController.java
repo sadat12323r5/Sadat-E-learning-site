@@ -58,4 +58,10 @@ public class CourseController {
         Course updatedCourse = courseService.updateCourseContent(id, newContent);
         return ResponseEntity.ok(updatedCourse);
     }
+
+    @PatchMapping("/{id}/videos")
+    public ResponseEntity<Course> updateCourseVideos(@PathVariable Long id, @RequestBody List<String> videoLinks) {
+        Course updatedCourse = courseService.updateCourseVideos(id, videoLinks);
+        return ResponseEntity.ok(updatedCourse);
+    }
 }
