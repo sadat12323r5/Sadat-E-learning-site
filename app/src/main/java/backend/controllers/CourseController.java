@@ -45,12 +45,6 @@ public class CourseController {
         return ResponseEntity.ok(course);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCourse(@PathVariable Long id) {
-        courseService.deleteCourse(id);
-        return ResponseEntity.ok("Course deleted successfully!");
-    }
-
     @PatchMapping("/{id}/content")
     public ResponseEntity<Course> updateCourseContent(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
         String newContent = requestBody.get("content");
