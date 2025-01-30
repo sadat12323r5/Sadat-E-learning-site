@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 @RestController
 @RequestMapping("/courses")
@@ -59,9 +61,13 @@ public class CourseController {
         return ResponseEntity.ok(updatedCourse);
     }
 
-    @PatchMapping("/{id}/videos")
-    public ResponseEntity<Course> updateCourseVideos(@PathVariable Long id, @RequestBody List<String> videoLinks) {
-        Course updatedCourse = courseService.updateCourseVideos(id, videoLinks);
+    @PatchMapping("/{id}/details")
+    public ResponseEntity<Course> updateCourseDetails(@PathVariable Long id, @RequestBody Map<String, Object> requestBody) {
+        String name = (String) requestBody.get("name");
+        String thumbnail = (String) requestBody.get("thumbnail");
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<String> videoLinks = objectMapper.convertValue(requestBody.get("videoLinks"), new TypeReference<List<String>>() {});
+        Course updatedCourse = courseService.updateCourseDetails(id, name, thumbnail, videoLinks);
         return ResponseEntity.ok(updatedCourse);
     }
 }

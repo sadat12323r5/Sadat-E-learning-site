@@ -50,10 +50,20 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public Course updateCourseVideos(Long id, List<String> videoLinks) {
-        Course course = courseRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + id));
-        course.setVideoLinks(videoLinks);
-        return courseRepository.save(course);
+    // Update course name, thumbnail, and video links
+    public Course updateCourseDetails(Long id, String name, String thumbnail, List<String> videoLinks) {
+        Course existingCourse = getCourseById(id);
+
+        if (name != null && !name.isBlank()) {
+            existingCourse.setName(name);
+        }
+        if (thumbnail != null && !thumbnail.isBlank()) {
+            existingCourse.setThumbnail(thumbnail);
+        }
+        if (videoLinks != null) {
+            existingCourse.setVideoLinks(videoLinks);
+        }
+
+        return courseRepository.save(existingCourse);
     }
 }
