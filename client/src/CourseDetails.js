@@ -9,7 +9,7 @@ const CourseDetails = () => {
   const [course, setCourse] = useState(null);
   const [error, setError] = useState(null);
   const [currentVideo, setCurrentVideo] = useState(null);
-  const [editedContent, setEditedContent] = useState(""); // Editable content
+  const [editedContent, setEditedContent] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const CourseDetails = () => {
       })
       .then((response) => {
         setCourse(response.data);
-        setEditedContent(response.data.content); // Set initial content for editing
+        setEditedContent(response.data.content);
         setCurrentVideo(null);
       })
       .catch((error) => {
@@ -59,7 +59,6 @@ const CourseDetails = () => {
       ["bold", "italic", "underline"],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
-      // "formula" is removed from the toolbar options
     ],
   };
 
@@ -75,24 +74,27 @@ const CourseDetails = () => {
   ];
 
   if (error) {
-    return (
-      <div style={{ color: "red", textAlign: "center" }}>
-        {error}
-      </div>
-    );
+    return <div style={{ color: "red", textAlign: "center" }}>{error}</div>;
   }
 
   if (!course) {
-    return (
-      <div style={{ color: "gray", textAlign: "center" }}>
-        Loading course details...
-      </div>
-    );
+    return <div style={{ color: "gray", textAlign: "center" }}>Loading course details...</div>;
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
+    <div style={{ textAlign: "center", marginTop: "50px", padding: "20px" }}>
       <h1 style={{ color: "yellow" }}>{course.name}</h1>
+
+      {/* Course Thumbnail */}
+      <div style={{ marginBottom: "20px" }}>
+        <img
+          src={course.thumbnail || "https://via.placeholder.com/400"}
+          alt="Course Thumbnail"
+          style={{ maxWidth: "400px", borderRadius: "10px" }}
+        />
+      </div>
+
+      {/* Course Content Editor */}
       <div style={{ margin: "20px auto", maxWidth: "800px" }}>
         <h3>Edit Course Content:</h3>
         <ReactQuill
@@ -117,6 +119,8 @@ const CourseDetails = () => {
           Save Content
         </button>
       </div>
+
+      {/* Video Section */}
       <h3 style={{ marginTop: "40px" }}>Videos:</h3>
       <div>
         {course.videoLinks.map((link, index) => (
@@ -126,8 +130,8 @@ const CourseDetails = () => {
             style={{
               margin: "10px",
               padding: "10px",
-              backgroundColor: "black",
-              color: "yellow",
+              backgroundColor: currentVideo === link ? "yellow" : "black",
+              color: currentVideo === link ? "black" : "yellow",
               border: "1px solid yellow",
               borderRadius: "5px",
               cursor: "pointer",
@@ -137,6 +141,8 @@ const CourseDetails = () => {
           </button>
         ))}
       </div>
+
+      {/* Video Player */}
       {currentVideo && (
         <div style={{ marginTop: "20px" }}>
           <iframe
@@ -156,10 +162,27 @@ const CourseDetails = () => {
           ></iframe>
         </div>
       )}
+
+      {/* Edit Course Button */}
+      <button
+        onClick={() => navigate(`/edit-course/${id}`)}
+        style={{
+          marginTop: "20px",
+          padding: "10px 20px",
+          backgroundColor: "blue",
+          color: "white",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Edit Course
+      </button>
+
+      {/* Back Button */}
       <button
         onClick={() => navigate("/courses")}
         style={{
-          marginTop: "30px",
+          marginTop: "20px",
           padding: "10px 20px",
           backgroundColor: "black",
           color: "yellow",
