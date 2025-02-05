@@ -178,6 +178,37 @@ const CourseDetails = () => {
         Edit Course
       </button>
 
+      {/* Create Quiz Button */}
+        <button
+          onClick={() => navigate(`/courses/${id}/create-quiz`)}
+          style={{
+            marginTop: "20px",
+            padding: "10px 20px",
+            backgroundColor: "green",
+            color: "white",
+            borderRadius: "5px",
+            cursor: "pointer",
+        }}
+      >
+        Create Quiz
+      </button>
+
+        {/* Take Quiz Button */}
+      <button
+          onClick={() => navigate(`/courses/${id}/take-quiz`)}
+          style={{
+            marginTop: "20px",
+            padding: "10px 20px",
+            backgroundColor: "purple",
+            color: "white",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+      >
+        Take Quiz
+      </button>
+
+
       {/* Back Button */}
       <button
         onClick={() => navigate("/courses")}
