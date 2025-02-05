@@ -7,6 +7,8 @@ import CourseDetails from "./CourseDetails";
 import ProtectedRoute from "./protectedRoute";
 import CreateCourse from "./CreateCourse";
 import EditCourse from "./EditCourse";
+import CreateQuiz from "./CreateQuiz"; // Import the CreateQuiz component
+import TakeQuiz from "./TakeQuiz";
 
 function App() {
   return (
@@ -32,9 +34,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
-
-        {/* Redirect any unmatched route to /login */}
         <Route
           path="/create-course"
           element={
@@ -43,7 +42,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/edit-course/:id"
           element={
@@ -52,6 +50,25 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/courses/:id/create-quiz"
+          element={
+            <ProtectedRoute>
+              <CreateQuiz />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/courses/:id/take-quiz"
+          element={
+           <ProtectedRoute>
+            <TakeQuiz />
+          </ProtectedRoute>
+          }
+        />
+
+
       </Routes>
     </div>
   );
