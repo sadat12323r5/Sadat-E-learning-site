@@ -1,7 +1,6 @@
 package backend.models;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +27,10 @@ public class Course {
     @ElementCollection
     private List<String> videoLinks;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz; // Associated quiz for the course
+
     public List<String> getVideoLinks() {
         return videoLinks;
     }
@@ -38,7 +41,7 @@ public class Course {
 
     public Course() {
     }
-    
+
     public Course(String name, String writtenContent, List<String> videoLinks, String thumbnail) {
         this.name = name;
         this.content = writtenContent;
@@ -77,5 +80,13 @@ public class Course {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
-    
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
 }
+
