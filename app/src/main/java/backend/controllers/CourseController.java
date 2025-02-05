@@ -1,12 +1,18 @@
 package backend.controllers;
 
+import backend.exceptions.ResourceNotFoundException;
 import backend.models.Course;
+import backend.models.Quiz;
+import backend.models.Question;
 import backend.services.CourseService;
+import backend.repositories.CourseRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +23,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, CourseRepository courseRepository) {
         this.courseService = courseService;
+        this.courseRepository = courseRepository;
     }
 
     @GetMapping
@@ -63,5 +71,43 @@ public class CourseController {
         List<String> videoLinks = objectMapper.convertValue(requestBody.get("videoLinks"), new TypeReference<List<String>>() {});
         Course updatedCourse = courseService.updateCourseDetails(id, name, thumbnail, videoLinks);
         return ResponseEntity.ok(updatedCourse);
+    }
+
+    // New Endpoints
+
+    @PostMapping("/{courseId}/quiz")
+    public ResponseEntity<Quiz> createQuiz(@PathVariable Long courseId, @RequestBody Quiz quiz) {
+        Quiz createdQuiz = courseService.createQuizForCourse(courseId, quiz);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
+    }
+
+    @GetMapping("/{courseId}/quiz")
+    public ResponseEntity<Quiz> getQuizByCourse(@PathVariable Long courseId) {
+        Quiz quiz = courseService.getQuizByCourse(courseId);
+        return ResponseEntity.ok(quiz);
+    }
+
+    @PostMapping("/{courseId}/quiz/submit")
+    public ResponseEntity<Map<String, Object>> submitQuiz(
+        @PathVariable Long courseId,
+        @RequestBody Map<String, Map<String, Integer>> requestBody) {
+    
+        // Extract the "answers" object
+        Map<String, Integer> answersAsStringKeys = requestBody.get("answers");
+
+        // Convert keys from String to Long
+        Map<Long, Integer> answers = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : answersAsStringKeys.entrySet()) {
+            try {
+                Long questionId = Long.parseLong(entry.getKey());
+                answers.put(questionId, entry.getValue());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid question ID: " + entry.getKey());
+            }
+        }
+
+        // Call the service to process the quiz submission
+        Map<String, Object> result = courseService.submitQuiz(courseId, answers);
+        return ResponseEntity.ok(result);
     }
 }
